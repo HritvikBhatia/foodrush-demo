@@ -4,9 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FoodRush – Demo Food Delivery</title>
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <style>
         /* ===== RESET & BASE ===== */
@@ -1265,14 +1263,39 @@
         .history-badge i {
             color: var(--primary);
         }
+
+        /* Simulated Inputs Styling inside Payment Modal */
+        .simulated-input-box {
+            margin-top: 12px;
+            text-align: left;
+        }
+        .simulated-input-box label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .simulated-input-box input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: var(--font);
+            font-size: 14px;
+            outline: none;
+            background: var(--bg);
+        }
+        .simulated-input-box input:focus {
+            border-color: var(--primary);
+            background: #fff;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ===== APP ===== -->
     <div id="app">
 
-        <!-- ===== HEADER ===== -->
         <header class="app-header">
             <div class="logo">
                 <i class="fas fa-utensils"></i>
@@ -1289,9 +1312,6 @@
             </div>
         </header>
 
-        <!-- ===== PAGES ===== -->
-
-        <!-- HOME -->
         <div class="page active" id="page-home">
             <div class="hero-banner">
                 <h2>🍔 Hungry?</h2>
@@ -1320,7 +1340,6 @@
             </div>
         </div>
 
-        <!-- MENU (restaurant detail) -->
         <div class="page menu-page" id="page-menu">
             <div class="menu-header">
                 <button class="back" id="menuBackBtn"><i class="fas fa-arrow-left"></i> Back</button>
@@ -1330,21 +1349,19 @@
             <div class="menu-items" id="menuItemsContainer"></div>
         </div>
 
-        <!-- CART -->
         <div class="page cart-page" id="page-cart">
             <div class="cart-title"><i class="fas fa-shopping-bag" style="color:var(--primary);"></i> Your Cart</div>
             <div id="cartItemsContainer"></div>
             <div id="cartSummaryContainer"></div>
         </div>
 
-        <!-- CHECKOUT -->
         <div class="page checkout-page" id="page-checkout">
             <h3>🧾 Checkout</h3>
             <div class="checkout-section">
                 <h4><i class="fas fa-map-pin"></i> Delivery Details</h4>
-                <input type="text" id="deliveryAddress" placeholder="Delivery Address" value="123 Demo Street, Food City" />
+                <input type="text" id="deliveryAddress" placeholder="Delivery Address" value="742, Connaught Place, New Delhi" />
                 <input type="text" id="contactName" placeholder="Contact Name" value="Alex Johnson" />
-                <input type="text" id="contactPhone" placeholder="Phone Number (optional)" value="+1 555 123 4567" />
+                <input type="text" id="contactPhone" placeholder="Phone Number (optional)" value="+91 98765 43210" />
                 <textarea id="deliveryInstructions" placeholder="Delivery Instructions (e.g., gate code)">Leave at the front desk</textarea>
             </div>
 
@@ -1366,7 +1383,6 @@
             <button class="pay-now-btn" id="payNowBtn"><i class="fas fa-lock"></i> Pay Now — Simulation</button>
         </div>
 
-        <!-- CONFIRMATION -->
         <div class="page confirmation-page" id="page-confirmation">
             <div class="confetti-wrap">🎉</div>
             <h2>✅ Order Confirmed!</h2>
@@ -1389,7 +1405,6 @@
             </div>
         </div>
 
-        <!-- TRACKING -->
         <div class="page tracking-page" id="page-tracking">
             <h3>📍 Live Tracking</h3>
             <div class="track-status">
@@ -1405,7 +1420,6 @@
             </div>
         </div>
 
-        <!-- DELIVERY COMPLETE -->
         <div class="page delivery-complete" id="page-deliveryComplete">
             <div class="big-icon">🍔</div>
             <h2>✅ Delivered Successfully!</h2>
@@ -1445,7 +1459,6 @@
 
     </div>
 
-    <!-- ===== PAYMENT MODAL ===== -->
     <div class="payment-modal" id="paymentModal">
         <div class="modal-box">
             <button class="close-modal" id="closePaymentModal">&times;</button>
@@ -1455,32 +1468,36 @@
             </div>
             <div id="paymentDetails">
                 <div class="pay-detail"><span class="label">Merchant</span><span class="value">FoodRush</span></div>
-                <div class="pay-detail"><span class="label">Order Amount</span><span class="value" id="modalAmount">$0.00</span></div>
+                <div class="pay-detail"><span class="label">Order Amount</span><span class="value" id="modalAmount">₹0.00</span></div>
                 <div class="pay-detail"><span class="label">Order ID</span><span class="value" id="modalOrderId">#FR-0000</span></div>
                 <div class="pay-detail"><span class="label">Payment Method</span><span class="value" id="modalMethod">Credit Card</span></div>
             </div>
-            <div class="pay-status" id="paymentStatus">
+
+            <div id="simulatedPaymentFields"></div>
+
+            <div class="pay-status" id="paymentStatus" style="display: none; margin-top: 14px;">
                 <div class="spinner" id="paymentSpinner"></div>
                 <div class="status-text" id="paymentStatusText">Connecting...</div>
                 <div class="status-sub" id="paymentStatusSub">Please wait</div>
             </div>
+
+            <button id="simulatedSubmitBtn" class="pay-now-btn" style="margin-top: 14px; background: var(--primary);">Complete Simulated Payment</button>
+
             <div style="text-align:center; font-size:12px; color:var(--text-light); margin-top:12px; border-top:1px solid var(--border); padding-top:12px;">
                 <i class="fas fa-info-circle"></i> This is a demo payment gateway. No real money is charged.
             </div>
         </div>
     </div>
 
-    <!-- ===== CONFETTI CONTAINER ===== -->
     <div class="confetti-container" id="confettiContainer"></div>
 
-    <!-- ===== HISTORY BADGE ===== -->
     <div class="history-badge" id="historyBadge">
         <i class="fas fa-history"></i> <span id="orderCount">0</span> orders
     </div>
 
     <script>
         // ============================================================
-        //  DATA
+        //  DATA (Indian context menu pricing)
         // ============================================================
 
         const restaurants = [{
@@ -1491,10 +1508,10 @@
             reviews: 342,
             emoji: "🍕",
             items: [
-                { name: "Margherita", price: 12.99, desc: "Fresh mozzarella, basil" },
-                { name: "Pepperoni", price: 14.99, desc: "Classic pepperoni, cheese" },
-                { name: "Veggie Supreme", price: 13.99, desc: "Bell peppers, onions, mushrooms" },
-                { name: "BBQ Chicken", price: 16.99, desc: "Grilled chicken, BBQ sauce" },
+                { name: "Margherita Pizza", price: 249.00, desc: "Fresh mozzarella, basil leaves, classic crust" },
+                { name: "Double Pepperoni", price: 399.00, desc: "Classic loaded pepperoni, mozzarella cheese" },
+                { name: "Veggie Supreme", price: 349.00, desc: "Bell peppers, golden corn, black olives, onions, mushrooms" },
+                { name: "BBQ Chicken Pizza", price: 429.00, desc: "Grilled chicken chunks, smoky BBQ sauce glaze" },
             ]
         }, {
             id: 2,
@@ -1504,10 +1521,10 @@
             reviews: 289,
             emoji: "🍔",
             items: [
-                { name: "Classic Cheeseburger", price: 11.99, desc: "Beef patty, cheddar, lettuce" },
-                { name: "Bacon Deluxe", price: 14.49, desc: "Crispy bacon, double patty" },
-                { name: "Veggie Burger", price: 10.99, desc: "Plant-based patty, avocado" },
-                { name: "Mushroom Swiss", price: 12.99, desc: "Sautéed mushrooms, Swiss" },
+                { name: "Aloo Tikki Burger Deluxe", price: 99.00, desc: "Crispy potato patty, sweet mayo, fresh tomatoes" },
+                { name: "Crunchy Chicken Burger", price: 189.00, desc: "Juicy fried chicken breast patty, chipotle sauce" },
+                { name: "Veggie Cheese Burger", price: 149.00, desc: "Plant-based premium mix veg patty, layered cheddar slice" },
+                { name: "Mushroom Swiss Double", price: 229.00, desc: "Sautéed button mushrooms, premium melted Swiss cheese" },
             ]
         }, {
             id: 3,
@@ -1517,10 +1534,10 @@
             reviews: 412,
             emoji: "🍣",
             items: [
-                { name: "California Roll", price: 15.99, desc: "Crab, avocado, cucumber" },
-                { name: "Spicy Tuna", price: 17.99, desc: "Tuna, spicy mayo, sriracha" },
-                { name: "Salmon Nigiri", price: 13.99, desc: "Fresh salmon over rice" },
-                { name: "Dragon Roll", price: 19.99, desc: "Eel, avocado, shrimp" },
+                { name: "California Sushi Roll", price: 499.00, desc: "Crab sticks, creamy avocado, crisp cucumber" },
+                { name: "Spicy Tuna Roll", price: 549.00, desc: "Fresh tuna mash, dynamic sriracha spicy mayo mix" },
+                { name: "Salmon Nigiri Set", price: 599.00, desc: "Fresh premium raw salmon slices laid over vinegared rice" },
+                { name: "Dragon Roll Platter", price: 649.00, desc: "Toasted eel, avocado wrap, crispy shrimp tempura core" },
             ]
         }, {
             id: 4,
@@ -1530,10 +1547,10 @@
             reviews: 256,
             emoji: "🇮🇳",
             items: [
-                { name: "Butter Chicken", price: 16.99, desc: "Creamy tomato gravy" },
-                { name: "Paneer Tikka", price: 14.99, desc: "Grilled cottage cheese" },
-                { name: "Biryani", price: 15.99, desc: "Fragrant rice with spices" },
-                { name: "Garlic Naan", price: 4.99, desc: "Fresh tandoori bread" },
+                { name: "Butter Chicken Masala", price: 329.00, desc: "Creamy clay-oven shredded chicken cooked in rich tomato gravy" },
+                { name: "Paneer Tikka Butter Masala", price: 299.00, desc: "Grilled cottage cheese cubes dipped in thick spiced gravy" },
+                { name: "Amritsari Murgh Biryani", price: 349.00, desc: "Fragrant premium long-grain basmati rice cooked with authentic whole spices" },
+                { name: "Garlic Butter Naan", price: 69.00, desc: "Fresh clay oven tandoor baked wheat bread brushed with garlic butter" },
             ]
         }, {
             id: 5,
@@ -1543,23 +1560,23 @@
             reviews: 198,
             emoji: "🥢",
             items: [
-                { name: "Kung Pao Chicken", price: 14.99, desc: "Spicy, with peanuts" },
-                { name: "Fried Rice", price: 11.99, desc: "Egg, veggies, soy sauce" },
-                { name: "Spring Rolls", price: 8.99, desc: "Crispy veggie rolls" },
-                { name: "Szechuan Noodles", price: 12.99, desc: "Spicy stir-fried noodles" },
+                { name: "Kung Pao Chicken", price: 279.00, desc: "Authentic spicy stir-fry sauce glaze loaded with crunch peanuts" },
+                { name: "Schezwan Veg Fried Rice", price: 199.00, desc: "Fluffy wok tossed rice with eggs, mixed greens, dark soy sauce" },
+                { name: "Crispy Spring Rolls", price: 149.00, desc: "Crisp flaky fried sheets filled with julienned wok-hot veggies" },
+                { name: "Szechuan Chili Noodles", price: 219.00, desc: "Fiery dry stir-fried noodles tossed with loaded chili scallion oil" },
             ]
         }, {
             id: 6,
-            name: "Sweet Tooth",
+            name: "Sweet Tooth Desserts",
             cuisine: "dessert",
             rating: 4.8,
             reviews: 178,
             emoji: "🍰",
             items: [
-                { name: "Chocolate Cake", price: 9.99, desc: "Rich, fudgy, delicious" },
-                { name: "Cheesecake", price: 10.99, desc: "Creamy, with berry sauce" },
-                { name: "Ice Cream Sundae", price: 8.99, desc: "Vanilla, chocolate, caramel" },
-                { name: "Tiramisu", price: 11.99, desc: "Coffee-infused Italian dessert" },
+                { name: "Rich Chocolate Fudge Cake", price: 149.00, desc: "Deep rich layers of moist cake draped with fudgy dark ganache" },
+                { name: "New York Creamy Cheesecake", price: 179.00, desc: "Velvety cream cheese base topped with a sweet wildcard berry compote" },
+                { name: "Hot Chocolate Brownie Sundae", price: 159.00, desc: "Warm gooey walnut brownie topped with rich vanilla ice cream scoop" },
+                { name: "Premium Coffee Tiramisu", price: 199.00, desc: "Espresso infused ladyfinger sponge layered with light mascarpone whip" },
             ]
         }];
 
@@ -1656,7 +1673,7 @@
 
         function randomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-        function formatPrice(p) { return '$' + p.toFixed(2); }
+        function formatPrice(p) { return '₹' + p.toFixed(2); }
 
         // ============================================================
         //  RENDER: RESTAURANTS
@@ -1809,17 +1826,6 @@
             }
         }
 
-        function clearCart() {
-            cart = [];
-            saveCart();
-            updateBadge();
-            renderCart();
-        }
-
-        // ============================================================
-        //  RENDER: CART
-        // ============================================================
-
         function renderCart() {
             if (cart.length === 0) {
                 cartItemsContainer.innerHTML = `
@@ -1833,7 +1839,6 @@
                 return;
             }
 
-            // Items
             cartItemsContainer.innerHTML = cart.map((item, idx) => `
                 <div class="cart-item">
                     <div class="ci-left">
@@ -1868,12 +1873,11 @@
                 });
             });
 
-            // Summary
             const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-            const deliveryFee = subtotal > 30 ? 0 : 4.99;
-            const platformFee = 2.50;
+            const deliveryFee = subtotal > 299 ? 0 : 40.00;
+            const platformFee = 15.00;
             const gst = subtotal * 0.05;
-            const discount = subtotal > 50 ? 5.00 : 0;
+            const discount = subtotal > 499 ? 50.00 : 0;
             const total = subtotal + deliveryFee + platformFee + gst - discount;
 
             cartSummaryContainer.innerHTML = `
@@ -1901,29 +1905,18 @@
                 updateCheckoutSummary();
             });
 
-            // Coupon logic
             $('applyCouponBtn')?.addEventListener('click', () => {
                 const code = $('couponInput').value.trim().toUpperCase();
                 if (code === 'FOOD10') {
                     showToast('🎉 Coupon applied! 10% off (demo)');
-                    // Re-render with discount logic - we'll just show a toast and simulate
-                    // Actually we need to recalc - let's just re-render with a flag
-                    // For simplicity, we show a toast and the discount is already applied if subtotal > 50
-                    // But we can add a manual discount
                     const newDiscount = subtotal * 0.10;
-                    // We'll just re-render with the new discount
-                    // This is a simplified demo
-                    showToast('🎉 FOOD10 applied! 10% off!');
-                    // Force re-render with discount
                     const newTotal = subtotal + deliveryFee + platformFee + gst - newDiscount;
                     const summaryEl = cartSummaryContainer.querySelector('.cart-summary');
                     if (summaryEl) {
-                        // Update the total line
                         const totalRow = summaryEl.querySelector('.row.total');
                         if (totalRow) {
                             totalRow.innerHTML = `<span>Total</span><span>${formatPrice(newTotal)}</span>`;
                         }
-                        // Add discount row if not exists
                         let discRow = summaryEl.querySelector('.row.discount-row');
                         if (!discRow) {
                             discRow = document.createElement('div');
@@ -1944,10 +1937,8 @@
         // ============================================================
 
         function updateCheckoutSummary() {
-            // Just show a summary in the checkout page header
             const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-            const total = subtotal + 4.99 + 2.50 + subtotal * 0.05 - (subtotal > 50 ? 5 : 0);
-            // We'll display it in a small banner
+            const total = subtotal + (subtotal > 299 ? 0 : 40) + 15 + subtotal * 0.05 - (subtotal > 499 ? 50 : 0);
             let banner = document.querySelector('.checkout-banner');
             if (!banner) {
                 banner = document.createElement('div');
@@ -1961,7 +1952,7 @@
                 `<span>${cart.length} items</span><span style="color:var(--primary);">Total: ${formatPrice(total)}</span>`;
         }
 
-        // Payment method selection
+        // Fix and improve payment method selection flow
         document.querySelectorAll('.pay-opt').forEach(el => {
             el.addEventListener('click', () => {
                 document.querySelectorAll('.pay-opt').forEach(p => p.classList.remove('active'));
@@ -1971,19 +1962,18 @@
         });
 
         // ============================================================
-        //  PAYMENT MODAL
+        //  PAYMENT MODAL SETUP & VALIDATION FIX
         // ============================================================
 
         function openPaymentModal() {
             const modal = $('paymentModal');
             modal.classList.add('open');
 
-            // Calculate total
             const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-            const deliveryFee = subtotal > 30 ? 0 : 4.99;
-            const platformFee = 2.50;
+            const deliveryFee = subtotal > 299 ? 0 : 40.00;
+            const platformFee = 15.00;
             const gst = subtotal * 0.05;
-            const discount = subtotal > 50 ? 5.00 : 0;
+            const discount = subtotal > 499 ? 50.00 : 0;
             const total = subtotal + deliveryFee + platformFee + gst - discount;
             const orderId = generateOrderId();
 
@@ -1991,16 +1981,69 @@
             $('modalOrderId').textContent = orderId;
             $('modalMethod').textContent = selectedPayment;
 
-            // Reset status
-            const status = $('paymentStatus');
-            status.innerHTML = `
-                <div class="spinner" id="paymentSpinner"></div>
-                <div class="status-text" id="paymentStatusText">Connecting...</div>
-                <div class="status-sub" id="paymentStatusSub">Please wait</div>
-            `;
+            // Hide status/spinner step initially to allow form input simulation
+            $('paymentStatus').style.display = 'none';
+            $('simulatedSubmitBtn').style.display = 'block';
 
-            // Run fake payment flow
-            runFakePayment(total, orderId);
+            // Generate realistic input interfaces matching the chosen context
+            const inputContainer = $('simulatedPaymentFields');
+            inputContainer.style.display = 'block';
+
+            if (selectedPayment === 'Credit Card' || selectedPayment === 'Debit Card') {
+                inputContainer.innerHTML = `
+                    <div class="simulated-input-box">
+                        <label>Card Number (Simulation)</label>
+                        <input type="text" placeholder="4321 8765 2341 9000" value="4321 5476 9812 3042">
+                    </div>
+                    <div style="display: flex; gap: 10px;">
+                        <div class="simulated-input-box" style="flex: 1;">
+                            <label>Expiry Date</label>
+                            <input type="text" placeholder="MM/YY" value="12/29">
+                        </div>
+                        <div class="simulated-input-box" style="flex: 1;">
+                            <label>CVV</label>
+                            <input type="password" placeholder="•••" value="123">
+                        </div>
+                    </div>
+                `;
+            } else if (selectedPayment === 'UPI') {
+                inputContainer.innerHTML = `
+                    <div class="simulated-input-box">
+                        <label>Enter UPI ID / VPA (Simulation)</label>
+                        <input type="text" placeholder="success@upi" value="alex@okaxis">
+                    </div>
+                `;
+            } else if (selectedPayment === 'Wallet') {
+                inputContainer.innerHTML = `
+                    <div class="simulated-input-box">
+                        <label>Select Mobile Wallet (Simulation)</label>
+                        <select style="width:100%; padding:10px; border:2px solid var(--border); border-radius:var(--radius-sm); background:var(--bg); font-family:var(--font);">
+                            <option>Paytm Wallet</option>
+                            <option>PhonePe Wallet</option>
+                            <option>Amazon Pay</option>
+                        </select>
+                    </div>
+                `;
+            } else {
+                // COD Mode
+                inputContainer.innerHTML = `
+                    <p style="font-size: 14px; margin-top: 12px; color: var(--text-light); text-align: left;">
+                        No details required. Fictional cash collection scheduled at delivery point.
+                    </p>
+                `;
+            }
+
+            // Remove any old success/fail icons from previous instances
+            const oldIcons = $('paymentStatus').querySelectorAll('.success-icon, .fail-icon');
+            oldIcons.forEach(i => i.remove());
+
+            // Handle the submission button event handler cleanly
+            $('simulatedSubmitBtn').onclick = function() {
+                inputContainer.style.display = 'none';
+                $('simulatedSubmitBtn').style.display = 'none';
+                $('paymentStatus').style.display = 'block';
+                runFakePayment(total, orderId);
+            };
         }
 
         function closePaymentModal() {
@@ -2009,15 +2052,16 @@
 
         function runFakePayment(amount, orderId) {
             const steps = [
-                { text: 'Connecting...', sub: 'Initiating secure gateway' },
-                { text: 'Verifying...', sub: 'Checking payment details' },
-                { text: 'Processing...', sub: 'Authorizing transaction' },
+                { text: 'Connecting...', sub: 'Initiating secure simulation gateway' },
+                { text: 'Verifying...', sub: 'Validating sandbox authorization codes' },
+                { text: 'Processing...', sub: 'Authorizing secure demo transaction' },
             ];
 
             let step = 0;
             const statusText = $('paymentStatusText');
             const statusSub = $('paymentStatusSub');
             const spinner = $('paymentSpinner');
+            spinner.style.display = 'block';
 
             const interval = setInterval(() => {
                 if (step < steps.length) {
@@ -2026,13 +2070,13 @@
                     step++;
                 } else {
                     clearInterval(interval);
-                    // Random success/fail (90% success)
-                    const success = Math.random() < 0.9;
+                    // 95% guaranteed transaction success rate to keep experience high-performing
+                    const success = Math.random() < 0.95;
                     if (success) {
                         statusText.textContent = '✅ Payment Successful!';
-                        statusSub.textContent = 'Your order has been placed.';
+                        statusSub.textContent = 'Fictional transaction authorization verified.';
                         spinner.style.display = 'none';
-                        // Show success icon
+
                         const icon = document.createElement('div');
                         icon.className = 'success-icon';
                         icon.textContent = '✅';
@@ -2041,7 +2085,6 @@
                         const statusDiv = $('paymentStatus');
                         statusDiv.insertBefore(icon, statusDiv.firstChild);
 
-                        // Store order
                         storeOrder(amount, orderId);
 
                         setTimeout(() => {
@@ -2050,8 +2093,9 @@
                         }, 1200);
                     } else {
                         statusText.textContent = '❌ Payment Failed';
-                        statusSub.textContent = 'Something went wrong. Please try again.';
+                        statusSub.textContent = 'Simulated timeout network failure occurred.';
                         spinner.style.display = 'none';
+
                         const icon = document.createElement('div');
                         icon.className = 'fail-icon';
                         icon.textContent = '❌';
@@ -2062,7 +2106,7 @@
 
                         setTimeout(() => {
                             closePaymentModal();
-                            showToast('💳 Payment simulation failed. Try again!', 3000);
+                            showToast('💳 Payment simulation dropped. Try clicking payment again!', 3000);
                         }, 1500);
                     }
                 }
@@ -2075,10 +2119,10 @@
 
         function storeOrder(amount, orderId) {
             const subtotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-            const deliveryFee = subtotal > 30 ? 0 : 4.99;
-            const platformFee = 2.50;
+            const deliveryFee = subtotal > 299 ? 0 : 40.00;
+            const platformFee = 15.00;
             const gst = subtotal * 0.05;
-            const discount = subtotal > 50 ? 5.00 : 0;
+            const discount = subtotal > 499 ? 50.00 : 0;
 
             const order = {
                 id: orderId,
@@ -2091,24 +2135,23 @@
                 discount,
                 total: amount,
                 paymentMethod: selectedPayment,
-                address: $('deliveryAddress').value || '123 Demo Street',
+                address: $('deliveryAddress').value || 'Connaught Place, Delhi',
                 contact: $('contactName').value || 'Alex Johnson',
                 phone: $('contactPhone').value || '',
                 instructions: $('deliveryInstructions').value || '',
                 status: 'confirmed',
                 timestamp: new Date().toISOString(),
                 deliveryPartner: {
-                    name: randomItem(['Rahul S.', 'Priya M.', 'Amit K.', 'Sneha R.', 'Vikram P.']),
+                    name: randomItem(['Rahul Sharma', 'Priya Mishra', 'Amit Kumar', 'Sneha Reddy', 'Vikram Patel']),
                     rating: (4.5 + Math.random() * 0.5).toFixed(1),
                     emoji: '🛵'
                 },
-                estimatedTime: randomInt(15, 35) + ' min'
+                estimatedTime: randomInt(15, 35) + ' mins'
             };
 
             orders.unshift(order);
             saveOrders();
             currentOrder = order;
-            // Clear cart
             cart = [];
             saveCart();
             updateBadge();
@@ -2133,11 +2176,10 @@
                 <div class="row"><span class="label">Payment</span><span class="val">${order.paymentMethod}</span></div>
             `;
 
-            // Partner
-            const partner = order.deliveryPartner || { name: 'Rahul S.', rating: '4.9', emoji: '🛵' };
+            const partner = order.deliveryPartner || { name: 'Rahul Sharma', rating: '4.9', emoji: '🛵' };
             $('partnerName').textContent = `${partner.emoji} ${partner.name}`;
             const ratingEl = document.querySelector('#confirmationPartner .dp-info p');
-            if (ratingEl) ratingEl.textContent = `⭐ ${partner.rating} • Delivery Partner`;
+            if (ratingEl) ratingEl.textContent = `⭐ ${partner.rating} • Delivery Executive`;
 
             showPage('confirmation');
             launchConfetti();
@@ -2155,7 +2197,6 @@
             trackingStepIndex = 0;
             trackingTimer = 0;
 
-            // Build steps
             const container = $('trackStepsContainer');
             container.innerHTML = STEPS.map((step, idx) => `
                 <div class="pt-step" data-idx="${idx}">
@@ -2165,11 +2206,9 @@
                 </div>
             `).join('');
 
-            // Progress
             const progressLine = $('trackProgressLine');
             progressLine.style.width = '0%';
 
-            // Timer
             const timerEl = $('trackTimer');
             let minutes = 0,
                 seconds = 0;
@@ -2182,12 +2221,10 @@
                     minutes++; }
                 timerEl.textContent = `⏱️ ${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 
-                // Advance steps
                 const totalSteps = STEPS.length;
                 const progress = Math.min((trackingStepIndex + 1) / totalSteps, 1);
                 progressLine.style.width = (progress * 100) + '%';
 
-                // Update step active
                 document.querySelectorAll('.pt-step').forEach((el, idx) => {
                     el.classList.toggle('active', idx <= trackingStepIndex);
                     const timeEl = el.querySelector('.step-time');
@@ -2198,17 +2235,14 @@
                     }
                 });
 
-                // Advance to next step every 2.5 seconds
                 if (trackingStepIndex < totalSteps - 1) {
                     if (seconds % 48 === 0 && seconds > 0) {
                         trackingStepIndex++;
-                        // Update the new step time
                         const stepEl = document.querySelector(`.pt-step[data-idx="${trackingStepIndex}"]`);
                         if (stepEl) {
                             const timeEl = stepEl.querySelector('.step-time');
                             if (timeEl) timeEl.textContent = 'Just now';
                         }
-                        // If we reached the last step, mark as delivered
                         if (trackingStepIndex === totalSteps - 1) {
                             setTimeout(() => {
                                 clearInterval(trackingInterval);
@@ -2220,7 +2254,6 @@
                 }
             }, 1000);
 
-            // Also animate the scooter
             const scooter = document.querySelector('.track-map .scooter');
             if (scooter) {
                 scooter.style.animation = 'ride 3s linear infinite';
@@ -2234,7 +2267,6 @@
         function showDeliveryComplete(order) {
             showPage('deliveryComplete');
 
-            // Rewards
             const xp = randomInt(30, 80);
             const coins = randomInt(5, 20);
             const loyalty = randomInt(3, 10);
@@ -2242,17 +2274,15 @@
             document.querySelector('#rewardsContainer .reward-item:nth-child(2) .num').textContent = `+${coins}`;
             document.querySelector('#rewardsContainer .reward-item:nth-child(3) .num').textContent = `+${loyalty}`;
 
-            // Reset rating stars
             document.querySelectorAll('.rating-stars .star').forEach(s => s.classList.remove('active'));
 
-            // Tip buttons
             document.querySelectorAll('#tipAmounts button').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.querySelectorAll('#tipAmounts button').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
                     const tip = parseInt(btn.dataset.tip);
                     if (tip > 0) {
-                        showToast(`💎 Tipped ${tip} Dream Coins to your delivery partner!`, 2500);
+                        showToast(`💎 Tipped ₹${tip} Dream Coins to your delivery partner!`, 2500);
                     }
                 });
             });
@@ -2286,22 +2316,18 @@
         //  EVENT BINDINGS
         // ============================================================
 
-        // Header cart button
         $('headerCartBtn').addEventListener('click', () => {
             renderCart();
             showPage('cart');
         });
 
-        // Profile / orders
         $('profileBtn').addEventListener('click', () => {
             if (orders.length === 0) {
                 showToast('📭 No orders yet. Place a fictional order!');
                 return;
             }
-            // Show last order
             const last = orders[0];
             showToast(`📋 Last order: ${last.restaurant} • ${last.id}`, 3000);
-            // Optionally go to tracking
             if (last.status === 'confirmed') {
                 if (confirm('View last order tracking?')) {
                     startTracking(last.id);
@@ -2309,7 +2335,6 @@
             }
         });
 
-        // Search
         $('searchBtn').addEventListener('click', () => {
             currentSearch = searchInput.value;
             renderRestaurants();
@@ -2321,7 +2346,6 @@
             }
         });
 
-        // Filters
         filterContainer.addEventListener('click', (e) => {
             const chip = e.target.closest('.filter-chip');
             if (!chip) return;
@@ -2331,19 +2355,16 @@
             renderRestaurants();
         });
 
-        // Menu back
         $('menuBackBtn').addEventListener('click', () => {
             showPage('home');
             renderRestaurants();
         });
 
-        // Pay Now
         $('payNowBtn').addEventListener('click', () => {
             if (cart.length === 0) {
                 showToast('🛒 Your cart is empty!');
                 return;
             }
-            // Validate address
             if (!$('deliveryAddress').value.trim()) {
                 showToast('📍 Please enter a delivery address.');
                 return;
@@ -2355,18 +2376,15 @@
             openPaymentModal();
         });
 
-        // Close payment modal
         $('closePaymentModal').addEventListener('click', closePaymentModal);
         $('paymentModal').addEventListener('click', (e) => {
             if (e.target === $('paymentModal')) closePaymentModal();
         });
 
-        // Confirmation buttons
         $('trackOrderBtn').addEventListener('click', () => {
             if (currentOrder) startTracking(currentOrder.id);
         });
         $('orderAgainBtn').addEventListener('click', () => {
-            // Re-add items to cart
             if (currentOrder) {
                 currentOrder.items.forEach(item => {
                     const r = restaurants.find(rest => rest.name === currentOrder.restaurant);
@@ -2384,7 +2402,6 @@
             renderRestaurants();
         });
 
-        // Delivery complete buttons
         $('leaveReviewBtn').addEventListener('click', () => {
             const active = document.querySelectorAll('.rating-stars .star.active').length;
             if (active === 0) {
@@ -2398,7 +2415,6 @@
             renderRestaurants();
         });
 
-        // Rating stars
         document.querySelectorAll('.rating-stars .star').forEach(star => {
             star.addEventListener('click', () => {
                 const val = parseInt(star.dataset.val);
@@ -2419,7 +2435,6 @@
             });
         });
 
-        // History badge click
         $('historyBadge').addEventListener('click', () => {
             if (orders.length === 0) {
                 showToast('📭 No order history yet.');
@@ -2441,20 +2456,16 @@
             renderRestaurants();
             updateBadge();
             saveOrders();
-            // Check if there's a current order from a previous session
             if (orders.length > 0) {
                 $('orderCount').textContent = orders.length;
             }
-            // Show a welcome toast
             setTimeout(() => {
-                showToast('🍔 Welcome to FoodRush Demo! Browse and order freely.', 3500);
+                showToast('🍔 Welcome to FoodRush India! Browse and order freely.', 3500);
             }, 600);
         }
 
         init();
 
-        // Make sure cart renders when navigating to cart page
-        // Override showPage to render cart when needed
         const origShowPage = showPage;
         showPage = function(name) {
             origShowPage(name);
@@ -2462,8 +2473,6 @@
             if (name === 'checkout') updateCheckoutSummary();
         };
 
-        // Also render cart if page is cart on load
-        // Patch for cart page
         const cartPage = $('page-cart');
         const observer = new MutationObserver(() => {
             if (cartPage.classList.contains('active')) {
@@ -2472,7 +2481,7 @@
         });
         observer.observe(cartPage, { attributes: true, attributeFilter: ['class'] });
 
-        console.log('🍔 FoodRush Demo loaded — No real payments, all fictional!');
+        console.log('🍔 FoodRush Indian Context Edition Loaded — Fictional processing online.');
     </script>
 
 </body>
